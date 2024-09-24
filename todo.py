@@ -1,1 +1,1 @@
-printf("Hellow ")
+print("Hellow ")
