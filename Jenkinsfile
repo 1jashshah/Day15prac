@@ -1,42 +1,44 @@
-pipeline{
+pipeline {
     agent any
-    environment{
+    
+    environment {
         PYTHON_VERSION = '3.11'
     }
 
-    stages{
-        stage("CLone Repo"){
-            steps{
+    stages {
+        stage("Clone Repo") {
+            steps {
+                // Clone the repository
                 git url: 'https://github.com/1jashshah/Day15prac.git', branch: 'main'
             }
         }
-    }
-    
-    stages{
-        stage("Build"){
-            steps{
-                script{
-                    sh 'python3 todo.py'
+
+        stage("Build") {
+            steps {
+                script {
+                    // Execute the Python script
+                    sh "python${PYTHON_VERSION} todo.py"
                 }
+            }
+        }
+
+        stage("Archive Artifacts") {
+            steps {
+                // Archive all Python files
+                archiveArtifacts artifacts: '**/*.py', allowEmptyArchive: true
             }
         }
     }
 
-    stages{
-        stage("Archive Artifacts"){
-            archiveArtifacts artifacts: '**/*.py', allowEmptyArchieve:true
-        }
-    }
-
-    post{
+    post {
         always {
-             echo " BUILD COMPLETED"
+            echo "BUILD COMPLETED"
         }
         success {
-            echo "Build Succeed"
+            echo "Build Succeeded"
         }
-        failure{
-            echo "build failed"
+        failure {
+            echo "Build Failed"
         }
     }
 }
