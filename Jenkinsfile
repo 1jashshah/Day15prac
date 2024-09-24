@@ -17,7 +17,7 @@ pipeline {
             steps {
                 script {
                     // Execute the Python script
-                    sh "python${PYTHON_VERSION} todo.py"
+                    sh "python3 todo.py"
                 }
             }
         }
